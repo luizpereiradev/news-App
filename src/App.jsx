@@ -13,6 +13,7 @@ export default function App() {
 
   return (
     <div className="flex flex-wrap w-full flex-row">
+      {data && console.log(data)}
       {isLoading && <p>Loading...</p>}
       {isError && <p>{error}</p>}
 
@@ -38,7 +39,7 @@ export default function App() {
             )
         )}
 
-      {data && console.log(data)}
+      
     </div>
   );
 }
