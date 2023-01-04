@@ -16,13 +16,17 @@ export default function App() {
   //   }
   // }, [inView])
 
+  const [isLoading, setLoading] = useState(true);
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery(
       [searchKey],
       async ({ pageParam = 1 }) => {
         const params = GET_TOP(pageParam, searchKey);
         const data = await fetch(params.url, params.options);
-        return data.json();
+        const response = await data.json();
+        setLoading(false);
+        return response;
       },
       {
         getNextPageParam: (_, pages) => {
@@ -40,15 +44,23 @@ export default function App() {
 
   return (
     <div className="flex justify-center items-center flex-col w-full">
-      {data && <Swiper data={data} />}
-      {data &&
-        data.pages.map((page, index) => (
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <>
+        <Swiper data={data} />   
+        {data && 
+          data.pages.map((page, index) => (
           <Fragment key={page + index / Math.random()}>
             {page.value.map((article) => (
               <Article key={article.name} article={article} />
             ))}
           </Fragment>
-        ))}
+          ))
+          }
+        </>
+      )}
+      {data && console.log(data.pages[0])}
     </div>
   );
 }

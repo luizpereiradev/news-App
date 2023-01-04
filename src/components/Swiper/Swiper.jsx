@@ -11,9 +11,9 @@ export default ({ data }) => {
       className="w-screen"
     >
       {data.pages[0].value.map(
-        (article) =>
+        (article, index) =>
           article.image && (
-            <SwiperSlide>
+            <SwiperSlide key={article.name + index}>
               <SwiperArticle article={article}/>
             </SwiperSlide>
           )
